@@ -33,7 +33,6 @@ export async function createServerAction<T>(
 ): Promise<ActionState<T>> {
   const start = performance.now();
 
-  // Default Options
   const { showSuccessToast = false, showErrorToast = true, successMessage, errorMessage } = options;
 
   try {
@@ -57,23 +56,33 @@ export async function createServerAction<T>(
             }
           : undefined,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const duration = Math.round(performance.now() - start);
 
     logger.error(`Action Failed: ${endpoint}`, error);
 
-    const errorMsg = errorMessage || error.message || "An unexpected error occurred";
+    let safeErrorMessage = "An unexpected error occurred";
+    let safeErrorStack = undefined;
+
+    if (error instanceof Error) {
+      safeErrorMessage = error.message;
+      safeErrorStack = error.stack;
+    } else if (typeof error === "string") {
+      safeErrorMessage = error;
+    }
+
+    const finalMessage = errorMessage || safeErrorMessage;
 
     return {
       success: false,
-      message: errorMsg,
-      _toast: showErrorToast ? { type: "error", message: errorMsg } : undefined,
+      message: finalMessage,
+      _toast: showErrorToast ? { type: "error", message: finalMessage } : undefined,
       _debug:
         process.env.NODE_ENV === "development"
           ? {
               endpoint,
               payload,
-              response: { error: error.message, stack: error.stack },
+              response: { error: safeErrorMessage, stack: safeErrorStack },
               duration,
               timestamp: new Date().toLocaleTimeString(),
             }

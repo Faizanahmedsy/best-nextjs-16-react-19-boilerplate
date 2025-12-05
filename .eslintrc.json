@@ -6,6 +6,7 @@
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
 
     "react/function-component-definition": "off",
+
     "no-restricted-syntax": [
       "warn",
       {
@@ -14,7 +15,7 @@
       }
     ],
 
-    // FORCE ABSOLUTE IMPORTS (@/...)
+    // Force Absolute Imports
     "no-restricted-imports": [
       "warn",
       {
@@ -25,15 +26,17 @@
           }
         ]
       }
-    ],
-    "overrides": [
-      {
-        "files": ["src/components/ui/*.tsx", "src/components/ui/**/*.tsx"],
-        "rules": {
-          "react/function-component-definition": "off",
-          "no-restricted-syntax": "off"
-        }
-      }
     ]
-  }
+  },
+
+  "overrides": [
+    {
+      // Allow Arrow functions in Shadcn UI components (because we didn't write them)
+      "files": ["src/components/ui/*.tsx", "src/components/ui/**/*.tsx"],
+      "rules": {
+        "react/function-component-definition": "off",
+        "no-restricted-syntax": "off"
+      }
+    }
+  ]
 }

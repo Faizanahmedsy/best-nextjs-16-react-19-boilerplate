@@ -8,7 +8,7 @@
     "dev": "node scripts/check-env.mjs && next dev",
     "build": "node scripts/check-env.mjs && next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint src",
     "prepare": "husky"
   },
   "dependencies": {

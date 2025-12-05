@@ -6,10 +6,6 @@ import { toast } from "sonner";
 
 import type { ActionState } from "@/api/server-wrapper";
 
-/**
- * A wrapper around useActionState that automatically logs server activity
- * to the browser console in development mode.
- */
 export function useServerAction<T, P>(
   action: (state: ActionState<T>, payload: P) => Promise<ActionState<T>>,
   initialState: ActionState<T> = { success: false }
@@ -30,6 +26,7 @@ export function useServerAction<T, P>(
       const color = isError ? "red" : "#10b981";
       const icon = isError ? "❌" : "✅";
 
+      /* eslint-disable no-console */
       console.groupCollapsed(
         `%c${icon} Server Action: ${endpoint} %c(${duration}ms) @ ${timestamp}`,
         `color: ${color}; font-weight: bold; font-size: 12px;`,
@@ -42,8 +39,9 @@ export function useServerAction<T, P>(
         console.log("%c📤 Response (Received)", "color: #10b981; font-weight: bold;", response);
       }
       console.groupEnd();
+      /* eslint-enable no-console */
     }
-  }, [state]); // Runs whenever the server response updates
+  }, [state]);
 
   return [state, dispatch, isPending] as const;
 }

@@ -18,6 +18,13 @@ This project is **hand-crafted by experienced engineer** to solve real-world pro
 - **Strict Architecture:** Feature-Sliced Design (Vertical Slices) prevents "Spaghetti Code" as the app grows to 100k+ lines.
 - **100% Lighthouse Score:** Optimized images, fonts, accessibility landmarks, and scalable viewports out of the box.
 
+## 🏆 Performance Benchmarks
+
+We don't just talk about performance; we measure it.
+Achieved **100/100** scores on Lighthouse (Mobile) with strict accessibility standards.
+
+![Lighthouse Scores](./.github/assets/lighthouse-perfect.png)
+
 ---
 
 ## 🛠 Tech Stack

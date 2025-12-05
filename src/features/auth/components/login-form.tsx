@@ -10,7 +10,8 @@ import { Label } from "@/components/ui/label";
 import { useServerAction } from "@/hooks/use-server-action";
 
 export function LoginForm() {
-  const [state, action] = useServerAction(loginAction);
+  // ✅ FIX: Destructure isPending
+  const [state, action, isPending] = useServerAction(loginAction);
 
   return (
     <form action={action} className="grid gap-4">
@@ -25,6 +26,8 @@ export function LoginForm() {
           placeholder="name@example.com"
           autoComplete="email"
           autoFocus
+          // ✅ FIX: Disable input when pending
+          disabled={isPending}
           aria-invalid={!!state.fieldErrors?.email}
           aria-describedby="email-error"
         />
@@ -54,6 +57,8 @@ export function LoginForm() {
           id="password"
           name="password"
           autoComplete="current-password"
+          // ✅ FIX: Disable input when pending
+          disabled={isPending}
           aria-invalid={!!state.fieldErrors?.password}
           aria-describedby="password-error"
         />

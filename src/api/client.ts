@@ -2,9 +2,7 @@ import { cookies } from "next/headers";
 
 import { logger } from "@/lib/logger";
 
-import { type ApiResponse } from "@/types/api";
-
-// <--- Import the logger
+import { type ApiErrorResponse, type ApiSuccessResponse } from "@/types/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -15,7 +13,7 @@ type FetchOptions = Omit<RequestInit, "headers"> & {
 export async function apiClient<T>(
   endpoint: string,
   options: FetchOptions = {}
-): Promise<ApiResponse<T>> {
+): Promise<ApiSuccessResponse<T>> {
   const cookieStore = await cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -31,11 +29,10 @@ export async function apiClient<T>(
   const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const fullUrl = `${BASE_URL}${path}`;
 
-  // 1. LOG THE REQUEST
   logger.info(`🚀 API Request: ${options.method || "GET"} ${path}`, {
     url: fullUrl,
     body: options.body ? JSON.parse(options.body as string) : undefined,
-    headers, // Logger will redact the token automatically
+    headers,
   });
 
   try {
@@ -44,32 +41,32 @@ export async function apiClient<T>(
       headers,
     });
 
-    // 2. LOG THE RAW STATUS
-    if (!response.ok) {
-      logger.warn(`API Response Status: ${response.status} ${response.statusText}`);
-    }
-
-    // Try to parse JSON, but handle HTML errors (common with 404s/500s)
     let data;
     const text = await response.text();
     try {
       data = JSON.parse(text);
     } catch {
-      data = { rawText: text }; // Fallback if API returns HTML error page
+      data = { message: text };
     }
 
     if (!response.ok) {
-      // 3. LOG THE ERROR DETAILS
-      logger.error(`❌ API Error Response:`, data);
-      throw new Error(data.message || `API Error: ${response.status} ${response.statusText}`);
+      const errorData = data as ApiErrorResponse;
+
+      logger.warn(`API Error ${response.status}:`, errorData);
+
+      const errorMessage =
+        errorData.messages?.[0] ||
+        errorData.message ||
+        `API Error: ${response.status} ${response.statusText}`;
+
+      throw new Error(errorMessage);
     }
 
-    // 4. LOG SUCCESS
-    logger.success(`✅ API Success: ${path}`, data);
+    const successData = data as ApiSuccessResponse<T>;
+    logger.success(`✅ API Success: ${path}`, successData);
 
-    return data as ApiResponse<T>;
+    return successData;
   } catch (error) {
-    // 5. LOG NETWORK/FETCH ERRORS
     logger.error(`💥 Network/Fetch Error: ${path}`, error);
     throw error;
   }

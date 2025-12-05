@@ -2,7 +2,7 @@
 import { styleText } from "util";
 
 const requiredServerEnvs = [
-  "DATABASE_URL",
+  // "DATABASE_URL",
   // "AUTH_SECRET",
 ];
 

@@ -1,7 +1,26 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "plugins": ["react"],
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
+    /*
+     * 1. Disable the robot-speak rule
+     */
+    "react/function-component-definition": "off",
+
+    /*
+     * 2. Add our CUSTOM rule with YOUR message
+     * Logic: If a variable starts with a Capital Letter (Component)
+     * and uses an Arrow Function -> ERROR.
+     */
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "VariableDeclarator[id.name=/^[A-Z]/] > ArrowFunctionExpression",
+        "message": "🛑 TEAM RULE: Don't use Arrow Functions for Components! Please rewrite this as 'function ComponentName() {}'. It makes debugging easier."
+      }
+    ]
   }
 }

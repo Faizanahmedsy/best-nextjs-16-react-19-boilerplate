@@ -1,0 +1,41 @@
+{
+  /*
+   * EDITOR BEHAVIOR
+   * Force formatting and fixing on save.
+   */
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  /*
+   * TAILWIND & CSS
+   * Ensure Tailwind v4 CSS is recognized correctly.
+   */
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+
+  /*
+   * CLEANLINESS
+   * Hide distraction files from the file explorer.
+   */
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.next": true
+  },
+
+  /*
+   * TYPESCRIPT
+   * Use the workspace version of TS (pnpm version) to avoid conflicts.
+   */
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

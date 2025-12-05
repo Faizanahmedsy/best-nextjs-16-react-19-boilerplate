@@ -2,7 +2,9 @@
 
 import * as React from "react";
 
-import { ThemeProvider } from "./theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+
+import { ThemeProvider } from "@/app/providers/theme-provider";
 
 interface ProvidersProps {
   readonly children: React.ReactNode;
@@ -11,15 +13,8 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      {/* 
-        Later, we will wrap this with:
-        <QueryClientProvider>
-          <SessionProvider>
-            {children}
-          </SessionProvider>
-        </QueryClientProvider>
-      */}
       {children}
+      <Toaster richColors position="top-right" closeButton />
     </ThemeProvider>
   );
 }

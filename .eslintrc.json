@@ -25,6 +25,15 @@
           }
         ]
       }
+    ],
+    "overrides": [
+      {
+        "files": ["src/components/ui/*.tsx", "src/components/ui/**/*.tsx"],
+        "rules": {
+          "react/function-component-definition": "off",
+          "no-restricted-syntax": "off"
+        }
+      }
     ]
   }
 }

@@ -1,13 +1,16 @@
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   role: string;
+  phone: string;
+  isActive: boolean;
 }
 
 export interface LoginData {
   accessToken: string;
   refreshToken: string;
+  expiresIn: number;
+  refreshExpiresIn: number;
   user: User;
 }

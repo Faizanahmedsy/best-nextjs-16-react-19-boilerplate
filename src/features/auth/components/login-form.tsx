@@ -16,6 +16,8 @@ import { PasswordInput } from "@/components/shared/password-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { cn } from "@/lib/utils";
+
 import { HomeAvatar } from "./avatars/home-avatar";
 import { SubmitButton } from "./submit-button";
 
@@ -33,6 +35,7 @@ export function LoginForm(props: UseLoginFormReturn) {
     handleEmailChange,
     handlePasswordFocus,
     handlePasswordBlur,
+    isPasswordError,
   } = props;
 
   return (
@@ -76,7 +79,10 @@ export function LoginForm(props: UseLoginFormReturn) {
             </Label>
             <Link
               href="/forgot-password"
-              className="text-link hover:text-primary focus-visible:ring-ring text-xs font-medium underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className={cn(
+                "text-link hover:text-primary focus-visible:ring-ring text-xs font-medium underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                isPasswordError && "animate-pulse-link"
+              )}
             >
               Forgot password?
             </Link>

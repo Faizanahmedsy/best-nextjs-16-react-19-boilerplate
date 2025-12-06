@@ -29,6 +29,8 @@ export function useLoginForm() {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [emailLength, setEmailLength] = useState(0);
 
+  const isPasswordError = !!state.message?.toLowerCase().includes("password");
+
   /**
    * Handles the change event for the email input to track its length for the avatar.
    * @param e - The React change event from the input element.
@@ -60,6 +62,7 @@ export function useLoginForm() {
     isPending,
     isPasswordFocused,
     emailLength,
+    isPasswordError,
     handleEmailChange,
     handlePasswordFocus,
     handlePasswordBlur,

@@ -4,6 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  /* ... existing @theme block ... */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-lexend), var(--font-geist-sans), ui-sans-serif, system-ui;
@@ -56,12 +57,12 @@
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.59 0.2 277.12);
+  --primary: oklch(0.52 0.22 277);
   --primary-foreground: oklch(0.99 0.01 270);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.85 0.04 256.788);
+  --muted-foreground: oklch(0.45 0.03 260); /* ✅ FINAL FIX: Darker for light mode */
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
@@ -98,7 +99,7 @@
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.82 0.04 256.788);
+  --muted-foreground: oklch(0.75 0.02 258); /* ✅ FINAL FIX: Increased lightness */
   --accent: oklch(0.279 0.041 260.031);
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
@@ -130,20 +131,18 @@
   body {
     color: var(--foreground);
     min-height: 100vh;
-    /* Light Mode: More visible gradient - soft blue-tinted white to light gray */
     background: oklch(0.96 0.02 272);
   }
 
   .dark body {
-    /* Dark Mode: More visible gradient - deep blue to darker navy */
     background: oklch(0.37 0.04 257);
   }
 
   h1 {
-    @apply text-3xl font-semibold tracking-tight; /* Bolder and larger */
+    @apply text-3xl font-semibold tracking-tight;
   }
 
   label {
-    @apply font-medium; /* Increase label weight */
+    @apply font-medium;
   }
 }

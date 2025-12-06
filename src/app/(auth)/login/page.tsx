@@ -20,7 +20,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-4 text-center">
           <h1 className="text-primary text-3xl font-bold tracking-tighter">Welcome Back</h1>
-          <p className="text-muted-foreground text-sm">Enter your credentials to continue</p>
+          <p className="text-foreground-muted text-sm">Enter your credentials to continue</p>
         </div>
 
         {/* The Card is now just for desktop styling */}
@@ -36,7 +36,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <footer className="text-muted-foreground absolute bottom-4 px-4 text-center text-xs sm:bottom-4">
+      <footer className="text-foreground-muted absolute bottom-4 px-4 text-center text-xs sm:bottom-4">
         <p>&copy; {new Date().getFullYear()} This is an open-source boilerplate.</p>
       </footer>
     </main>

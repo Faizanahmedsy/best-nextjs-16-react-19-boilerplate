@@ -112,7 +112,8 @@ export function LoginForm() {
           href="/register"
           className="border-primary/20 text-link-muted hover:border-primary/40 hover:bg-primary/5 focus-visible:ring-ring w-full rounded-lg border-2 border-dashed p-3 text-center transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:p-3.5"
         >
-          New to the platform? <span className="text-primary font-semibold">Sign up here</span>
+          New to the platform?{" "}
+          <span className="text-primary-foreground-alt font-semibold">Sign up here</span>
         </Link>
       </div>
     </div>

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
+
 // <--- Import useState
 import { loginAction } from "@/features/auth/actions/login.action";
 import { HomeAvatar } from "@/features/auth/components/avatars/home-avatar";
@@ -99,6 +101,14 @@ export function LoginForm() {
 
         <SubmitButton />
       </form>
+      <div className="mt-4 flex flex-col items-center gap-4 text-sm">
+        <Link
+          href="/register"
+          className="border-primary/20 text-muted-foreground w-full rounded-lg border-2 border-dashed p-3 text-center transition-colors"
+        >
+          New to the platform? <span className="text-primary font-semibold">Sign up here</span>
+        </Link>
+      </div>
     </div>
   );
 }

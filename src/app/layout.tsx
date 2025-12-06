@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
-import { fontMono, fontSans } from "@/lib/fonts";
+import { fontLexend, fontMono, fontSans } from "@/lib/fonts";
 
 import "@/app/globals.css";
 import { Providers } from "@/app/providers/providers";
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={` ${fontSans.variable} ${fontMono.variable} bg-background text-foreground selection:bg-primary/20 selection:text-primary min-h-screen w-full overflow-x-hidden antialiased`}
+        className={` ${fontSans.variable} ${fontMono.variable} ${fontLexend.variable} text-foreground selection:bg-primary/20 selection:text-primary min-h-screen w-full overflow-x-hidden font-sans antialiased`}
       >
         <Providers>{children}</Providers>
       </body>

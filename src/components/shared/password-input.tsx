@@ -30,9 +30,9 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, React.ComponentP
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? (
-            <EyeIcon className="text-muted-foreground size-4" aria-hidden="true" />
+            <EyeIcon className="text-foreground-muted size-4" aria-hidden="true" />
           ) : (
-            <EyeOffIcon className="text-muted-foreground size-4" aria-hidden="true" />
+            <EyeOffIcon className="text-foreground-muted size-4" aria-hidden="true" />
           )}
         </Button>
       </div>

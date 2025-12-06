@@ -72,5 +72,12 @@
     "*.{json,css,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "_comment": "the browserslist is added to tell Next.js to target modern browsers and stop shipping these polyfills.",
+  "browserslist": [
+    "last 2 chrome versions",
+    "last 2 firefox versions",
+    "last 2 safari versions",
+    "last 2 edge versions"
+  ]
 }

@@ -6,7 +6,7 @@ import { type ApiErrorResponse, type ApiSuccessResponse } from "@/types/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
-type FetchOptions = Omit<RequestInit, "headers"> & {
+export type FetchOptions = Omit<RequestInit, "headers"> & {
   headers?: Record<string, string>;
 };
 

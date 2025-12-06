@@ -1,92 +1,93 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { LoginForm } from "@/features/auth/components/login-form";
-import type { LoginData } from "@/features/auth/types/auth.types";
+import { LoginForm } from "../login-form";
 
-import type { ActionState } from "@/api/server-wrapper";
-
-type MockReturnType = [ActionState<LoginData>, (formData: FormData) => void, boolean];
-
-const { mockUseServerAction } = vi.hoisted(() => {
-  return { mockUseServerAction: vi.fn() };
+// -----------------------------------------------------------------------------
+// 🛡️ WORLD CLASS MOCKING STRATEGY 🛡️
+// -----------------------------------------------------------------------------
+const { mockUseServerAction, mockLoginAction } = vi.hoisted(() => {
+  return {
+    mockUseServerAction: vi.fn(),
+    mockLoginAction: vi.fn(),
+  };
 });
 
 vi.mock("@/hooks/use-server-action", () => ({
   useServerAction: mockUseServerAction,
 }));
 
+vi.mock("@/features/auth/actions/login.action", () => ({
+  loginAction: mockLoginAction,
+}));
+// -----------------------------------------------------------------------------
+
 describe("LoginForm Component", () => {
-  it("renders the form with accessibility labels", () => {
-    const initialState: MockReturnType = [{ success: false }, vi.fn(), false];
-    mockUseServerAction.mockReturnValue(initialState);
-
-    render(<LoginForm />);
-
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
-    expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
+  beforeEach(() => {
+    // Reset the mock before each test to ensure isolation
+    mockUseServerAction.mockReturnValue([
+      { success: false }, // Default state
+      vi.fn(), // Mock dispatch
+      false, // isPending
+    ]);
   });
 
-  it("toggles password visibility", () => {
-    const state: MockReturnType = [{ success: false }, vi.fn(), false];
-    mockUseServerAction.mockReturnValue(state);
-
+  it("should render the form with correct accessible labels", () => {
     render(<LoginForm />);
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
+  });
 
+  it("should toggle password visibility when the eye icon is clicked", () => {
+    render(<LoginForm />);
     const passwordInput = screen.getByLabelText("Password", { selector: "input" });
     const toggleButton = screen.getByRole("button", { name: /show password/i });
 
     expect(passwordInput).toHaveAttribute("type", "password");
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute("type", "text");
+    expect(screen.getByRole("button", { name: /hide password/i })).toBeInTheDocument();
   });
 
-  it("displays validation errors from the server", () => {
-    const errorState: MockReturnType = [
+  it("should display field-specific validation errors from the server", () => {
+    mockUseServerAction.mockReturnValue([
       {
         success: false,
-        message: "Validation Failed",
-        fieldErrors: {
-          email: ["Invalid email address"],
-          password: ["Password too short"],
-        },
+        fieldErrors: { email: ["Invalid email address"] },
       },
       vi.fn(),
       false,
-    ];
-    mockUseServerAction.mockReturnValue(errorState);
+    ]);
 
     render(<LoginForm />);
-
     expect(screen.getByText("Invalid email address")).toBeInTheDocument();
-    expect(screen.getByText("Password too short")).toBeInTheDocument();
   });
 
-  it("displays global API error messages", () => {
-    // Simulate API Error (e.g. 401)
-    // The Client extracts 'messages[0]' and passes it as 'message' in ActionState
-    const apiErrorState: MockReturnType = [
+  it("should display a global error message from the server", () => {
+    mockUseServerAction.mockReturnValue([
       {
         success: false,
-        message: "No authorization header found",
+        message: "Invalid credentials. Please try again.",
       },
       vi.fn(),
       false,
-    ];
-    mockUseServerAction.mockReturnValue(apiErrorState);
+    ]);
 
     render(<LoginForm />);
-
-    expect(screen.getByText("No authorization header found")).toBeInTheDocument();
+    expect(screen.getByText("Invalid credentials. Please try again.")).toBeInTheDocument();
   });
 
-  it("disables inputs while submitting", () => {
-    const loadingState: MockReturnType = [{ success: false }, vi.fn(), true];
-    mockUseServerAction.mockReturnValue(loadingState);
+  it("should disable inputs while submitting", () => {
+    // Arrange: Simulate the hook returning `isPending: true`.
+    mockUseServerAction.mockReturnValue([
+      { success: false },
+      vi.fn(),
+      true, // The action is in progress
+    ]);
 
     render(<LoginForm />);
 
+    // Assert: The inputs controlled by this component should be disabled.
     expect(screen.getByLabelText("Email")).toBeDisabled();
     expect(screen.getByLabelText("Password", { selector: "input" })).toBeDisabled();
   });

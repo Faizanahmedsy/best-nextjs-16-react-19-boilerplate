@@ -41,7 +41,7 @@ export function LoginForm() {
             disabled={isPending}
             aria-invalid={!!state.fieldErrors?.email}
             aria-describedby={state.fieldErrors?.email ? "email-error" : undefined}
-            className="h-11 sm:h-10" // Larger touch target on mobile
+            className="placeholder:text-placeholder h-11 sm:h-10"
             onChange={(e) => setEmailLength(e.target.value.length)}
             onFocus={() => setIsPasswordFocused(false)}
           />
@@ -66,7 +66,8 @@ export function LoginForm() {
             </Label>
             <Link
               href="/forgot-password"
-              className="text-muted-foreground hover:text-primary focus-visible:ring-ring text-xs underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              // ✅ FIX: Using the solid 'text-link' color.
+              className="text-link hover:text-primary focus-visible:ring-ring text-xs font-medium underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               Forgot password?
             </Link>
@@ -78,7 +79,7 @@ export function LoginForm() {
             disabled={isPending}
             aria-invalid={!!state.fieldErrors?.password}
             aria-describedby={state.fieldErrors?.password ? "password-error" : undefined}
-            className="h-11 sm:h-10" // Larger touch target on mobile
+            className="placeholder:text-placeholder h-11 sm:h-10"
             onFocus={() => setIsPasswordFocused(true)}
             onBlur={() => setIsPasswordFocused(false)}
           />
@@ -106,11 +107,10 @@ export function LoginForm() {
         <SubmitButton />
       </form>
 
-      {/* Sign Up Link - Optimized for mobile touch */}
       <div className="mt-4 flex flex-col items-center gap-4 text-sm sm:mt-6">
         <Link
           href="/register"
-          className="border-primary/20 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 focus-visible:ring-ring w-full rounded-lg border-2 border-dashed p-3 text-center transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:p-3.5"
+          className="border-primary/20 text-link-muted hover:border-primary/40 hover:bg-primary/5 focus-visible:ring-ring w-full rounded-lg border-2 border-dashed p-3 text-center transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:p-3.5"
         >
           New to the platform? <span className="text-primary font-semibold">Sign up here</span>
         </Link>

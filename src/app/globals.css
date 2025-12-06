@@ -6,9 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans:
-    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: var(--font-lexend), var(--font-geist-sans), ui-sans-serif, system-ui;
   --font-mono:
     var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -48,15 +46,15 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.8rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.59 0.2 277.12);
+  --primary-foreground: oklch(0.99 0.01 270);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
@@ -89,8 +87,8 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
+  --primary: oklch(69.282% 0.16392 278.917);
+  --primary-foreground: oklch(0.1 0.02 270);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted: oklch(0.279 0.041 260.031);
@@ -121,6 +119,22 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    color: var(--foreground);
+    min-height: 100vh;
+    /* Light Mode: More visible gradient - soft blue-tinted white to light gray */
+    background: oklch(0.96 0.02 272);
+  }
+
+  .dark body {
+    /* Dark Mode: More visible gradient - deep blue to darker navy */
+    background: oklch(0.37 0.04 257);
+  }
+
+  h1 {
+    @apply text-3xl font-semibold tracking-tight; /* Bolder and larger */
+  }
+
+  label {
+    @apply font-medium; /* Increase label weight */
   }
 }

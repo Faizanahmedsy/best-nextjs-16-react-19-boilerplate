@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 
-// <--- Import useState
+import Link from "next/link";
+
 import { loginAction } from "@/features/auth/actions/login.action";
 import { HomeAvatar } from "@/features/auth/components/avatars/home-avatar";
 import { SubmitButton } from "@/features/auth/components/submit-button";
@@ -13,24 +14,20 @@ import { Label } from "@/components/ui/label";
 
 import { useServerAction } from "@/hooks/use-server-action";
 
-// <--- Import the Avatar
-
 export function LoginForm() {
   const [state, action, isPending] = useServerAction(loginAction);
 
-  // 1. Interactive State
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [emailLength, setEmailLength] = useState(0);
 
   return (
     <div className="w-full">
-      {/* 2. The Avatar sits ON TOP of the form */}
       <HomeAvatar
         isPasswordFocused={isPasswordFocused}
         lookAt={(emailLength / 30) * 100} // Normalize 0-30 chars to 0-100%
       />
 
-      <form action={action} className="mt-2 grid gap-4">
+      <form action={action} className="mt-2 grid gap-4 sm:gap-5">
         <div className="grid gap-2">
           <Label htmlFor="email" className={state.fieldErrors?.email ? "text-destructive" : ""}>
             Email
@@ -43,32 +40,36 @@ export function LoginForm() {
             autoComplete="email"
             disabled={isPending}
             aria-invalid={!!state.fieldErrors?.email}
-            aria-describedby="email-error"
-            // 3. Track Typing
+            aria-describedby={state.fieldErrors?.email ? "email-error" : undefined}
+            className="h-11 sm:h-10" // Larger touch target on mobile
             onChange={(e) => setEmailLength(e.target.value.length)}
             onFocus={() => setIsPasswordFocused(false)}
           />
           {state.fieldErrors?.email && (
-            <p id="email-error" className="text-destructive animate-in slide-in-from-top-1 text-xs">
+            <p
+              id="email-error"
+              className="text-destructive animate-in slide-in-from-top-1 text-xs"
+              role="alert"
+            >
               {state.fieldErrors.email[0]}
             </p>
           )}
         </div>
 
         <div className="grid gap-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <Label
               htmlFor="password"
               className={state.fieldErrors?.password ? "text-destructive" : ""}
             >
               Password
             </Label>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary text-xs underline-offset-4 hover:underline"
+            <Link
+              href="/forgot-password"
+              className="text-muted-foreground hover:text-primary focus-visible:ring-ring text-xs underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
           <PasswordInput
             id="password"
@@ -76,8 +77,8 @@ export function LoginForm() {
             autoComplete="current-password"
             disabled={isPending}
             aria-invalid={!!state.fieldErrors?.password}
-            aria-describedby="password-error"
-            // 4. Track Focus
+            aria-describedby={state.fieldErrors?.password ? "password-error" : undefined}
+            className="h-11 sm:h-10" // Larger touch target on mobile
             onFocus={() => setIsPasswordFocused(true)}
             onBlur={() => setIsPasswordFocused(false)}
           />
@@ -85,6 +86,7 @@ export function LoginForm() {
             <p
               id="password-error"
               className="text-destructive animate-in slide-in-from-top-1 text-xs"
+              role="alert"
             >
               {state.fieldErrors.password[0]}
             </p>
@@ -92,13 +94,27 @@ export function LoginForm() {
         </div>
 
         {!state.success && state.message && (
-          <div className="bg-destructive/15 text-destructive animate-in zoom-in-95 rounded-md p-3 text-sm font-medium">
+          <div
+            className="bg-destructive/15 text-destructive animate-in zoom-in-95 rounded-md p-3 text-sm font-medium"
+            role="alert"
+            aria-live="polite"
+          >
             {state.message}
           </div>
         )}
 
         <SubmitButton />
       </form>
+
+      {/* Sign Up Link - Optimized for mobile touch */}
+      <div className="mt-4 flex flex-col items-center gap-4 text-sm sm:mt-6">
+        <Link
+          href="/register"
+          className="border-primary/20 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 focus-visible:ring-ring w-full rounded-lg border-2 border-dashed p-3 text-center transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:p-3.5"
+        >
+          New to the platform? <span className="text-primary font-semibold">Sign up here</span>
+        </Link>
+      </div>
     </div>
   );
 }

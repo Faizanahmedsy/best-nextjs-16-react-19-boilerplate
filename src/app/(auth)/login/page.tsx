@@ -3,7 +3,10 @@ import { Metadata } from "next";
 import { LoginForm } from "@/features/auth/components/login-form";
 
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { Card, CardContent } from "@/components/ui/card";
+import { VisuallyHidden } from "@/components/shared/visually-hidden";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+
+// ✅ Import the new utility
 
 export const metadata: Metadata = {
   title: "Login",
@@ -18,20 +21,32 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-sm">
-        <div className="mb-4 text-center">
-          <h1 className="text-primary text-3xl font-bold tracking-tighter">Welcome Back</h1>
-          <p className="text-foreground-muted text-sm">Enter your credentials to continue</p>
-        </div>
+        {/* ✅ ACCESSIBILITY FIX: The single, invisible H1 for screen readers */}
+        <VisuallyHidden>
+          <h1>Login to Super Admin</h1>
+        </VisuallyHidden>
 
-        {/* The Card is now just for desktop styling */}
+        {/* --- DESKTOP CARD --- */}
         <Card className="border-border/50 bg-background/80 hidden overflow-visible rounded-2xl border shadow-2xl shadow-black/10 backdrop-blur-lg sm:block dark:bg-black dark:shadow-black/50">
-          <CardContent className="p-8">
+          <CardHeader className="p-8 pb-4 text-center">
+            {/* ✅ FIX: Moved back inside the card, using an h2 */}
+            <h2 className="text-primary text-3xl font-bold tracking-tighter">Welcome Back</h2>
+            <CardDescription className="pt-1">Enter your credentials to continue</CardDescription>
+          </CardHeader>
+          <CardContent className="p-8 pt-0">
             <LoginForm />
           </CardContent>
         </Card>
 
-        {/* On mobile, the form appears without a card */}
+        {/* --- MOBILE VIEW --- */}
         <div className="block sm:hidden">
+          <div className="mb-6 text-center">
+            {/* ✅ FIX: Using an h2 for the mobile title */}
+            <h2 className="text-primary mb-2 text-3xl font-bold tracking-tighter sm:text-4xl">
+              Welcome Back
+            </h2>
+            <p className="text-muted-foreground text-sm">Enter your credentials to continue</p>
+          </div>
           <LoginForm />
         </div>
       </div>

@@ -7,6 +7,6 @@ export const API_ENDPOINTS = {
   },
   USERS: {
     LIST: "/users",
-    DETAIL: (id: string) => `/users/${id}`, // Helper function for dynamic IDs
+    DETAIL: (id: string) => `/users/${id}`,
   },
 } as const;

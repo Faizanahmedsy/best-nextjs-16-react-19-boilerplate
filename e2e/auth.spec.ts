@@ -7,7 +7,7 @@ test.describe("Authentication Flow", () => {
   test("should redirect unauthenticated user to login", async ({ page }) => {
     await page.goto("/dashboard");
     await expect(page).toHaveURL(/\/login/);
-    await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Welcome Back" })).toBeVisible();
   });
 
   test("should login successfully and redirect", async ({ page }) => {

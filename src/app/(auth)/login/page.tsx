@@ -15,7 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/
 
 export const metadata: Metadata = {
   title: "Login",
-  description: "Access your Home Worth account",
+  description: "Access your account",
 };
 
 export default function LoginPage() {

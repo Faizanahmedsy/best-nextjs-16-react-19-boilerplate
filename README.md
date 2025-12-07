@@ -145,4 +145,17 @@ pnpm e2e
 
 ---
 
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Faizanahmed Saiyed**
+
+- GitHub: [@Faizanahmedsy](https://github.com/Faizanahmedsy)
+- Repository: [best-nextjs-16-react-19-boilerplate](https://github.com/Faizanahmedsy/best-nextjs-16-react-19-boilerplate)
+
+---
+
 _Hand-crafted with obsession for quality._

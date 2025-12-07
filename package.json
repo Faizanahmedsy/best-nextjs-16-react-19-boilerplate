@@ -2,6 +2,35 @@
   "name": "super-nextjs-16-boilerplate",
   "version": "0.1.0",
   "private": true,
+  "description": "A production-ready Next.js 16 and React 19 boilerplate with TypeScript, Tailwind CSS, testing setup, and modern tooling",
+  "author": {
+    "name": "Faizanahmed Saiyed",
+    "url": "https://github.com/Faizanahmedsy"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Faizanahmedsy/best-nextjs-16-react-19-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Faizanahmedsy/best-nextjs-16-react-19-boilerplate/issues"
+  },
+  "homepage": "https://github.com/Faizanahmedsy/best-nextjs-16-react-19-boilerplate#readme",
+  "keywords": [
+    "nextjs",
+    "nextjs-16",
+    "react",
+    "react-19",
+    "typescript",
+    "tailwindcss",
+    "boilerplate",
+    "starter-template",
+    "vitest",
+    "playwright",
+    "eslint",
+    "prettier",
+    "husky"
+  ],
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

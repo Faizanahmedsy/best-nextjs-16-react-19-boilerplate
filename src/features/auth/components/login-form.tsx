@@ -11,6 +11,7 @@
 import Link from "next/link";
 
 import { RobotAvatar } from "@/features/auth/components/avatars/robot-avatar";
+import { SubmitButton } from "@/features/auth/components/submit-button";
 import type { UseLoginFormReturn } from "@/features/auth/hooks/use-login-form";
 
 import { PasswordInput } from "@/components/shared/password-input";
@@ -18,8 +19,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { cn } from "@/lib/utils";
-
-import { SubmitButton } from "./submit-button";
 
 /**
  * The presentational component for the login form.

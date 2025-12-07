@@ -10,6 +10,7 @@
 
 import Link from "next/link";
 
+import { RobotAvatar } from "@/features/auth/components/avatars/robot-avatar";
 import type { UseLoginFormReturn } from "@/features/auth/hooks/use-login-form";
 
 import { PasswordInput } from "@/components/shared/password-input";
@@ -18,7 +19,6 @@ import { Label } from "@/components/ui/label";
 
 import { cn } from "@/lib/utils";
 
-import { HomeAvatar } from "./avatars/home-avatar";
 import { SubmitButton } from "./submit-button";
 
 /**
@@ -31,16 +31,23 @@ export function LoginForm(props: UseLoginFormReturn) {
     action,
     isPending,
     isPasswordFocused,
+    isPasswordVisible,
     emailLength,
     handleEmailChange,
     handlePasswordFocus,
     handlePasswordBlur,
+    handlePasswordVisibilityChange,
     isPasswordError,
   } = props;
 
   return (
     <div className="w-full">
-      <HomeAvatar isPasswordFocused={isPasswordFocused} lookAt={(emailLength / 30) * 100} />
+      <RobotAvatar
+        isPasswordFocused={isPasswordFocused}
+        isPasswordVisible={isPasswordVisible}
+        lookAt={(emailLength / 30) * 100}
+      />
+
       <form action={action} className="mt-2 grid gap-4 sm:gap-5">
         <div className="grid gap-2">
           <Label htmlFor="email" className={state.fieldErrors?.email ? "text-destructive" : ""}>
@@ -87,6 +94,7 @@ export function LoginForm(props: UseLoginFormReturn) {
               Forgot password?
             </Link>
           </div>
+
           <PasswordInput
             id="password"
             name="password"
@@ -97,7 +105,9 @@ export function LoginForm(props: UseLoginFormReturn) {
             className="placeholder:text-placeholder h-11 sm:h-10"
             onFocus={handlePasswordFocus}
             onBlur={handlePasswordBlur}
+            onVisibilityChange={handlePasswordVisibilityChange}
           />
+
           {state.fieldErrors?.password && (
             <p
               id="password-error"

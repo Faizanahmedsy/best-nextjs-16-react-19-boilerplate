@@ -1,93 +1,94 @@
+/**
+ * @file Unit Tests for the "Dumb" LoginForm component.
+ *
+ * @architecture
+ * Since LoginForm is a presentational component, these tests verify its rendering logic
+ * in complete isolation. We do not mock hooks here. Instead, we pass props directly
+ * to simulate different states (idle, loading, error) and assert that the UI
+ * renders correctly and that event handlers are called.
+ */
 import { fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+import type { UseLoginFormReturn } from "@/features/auth/hooks/use-login-form";
 
 import { LoginForm } from "../login-form";
 
-// -----------------------------------------------------------------------------
-// 🛡️ WORLD CLASS MOCKING STRATEGY 🛡️
-// -----------------------------------------------------------------------------
-const { mockUseServerAction, mockLoginAction } = vi.hoisted(() => {
-  return {
-    mockUseServerAction: vi.fn(),
-    mockLoginAction: vi.fn(),
-  };
+// 1. Create a set of default props for the dumb component.
+// This makes our tests DRY and easy to read.
+const createTestProps = (overrides: Partial<UseLoginFormReturn> = {}): UseLoginFormReturn => ({
+  state: { success: false },
+  action: vi.fn(),
+  isPending: false,
+  isPasswordFocused: false,
+  emailLength: 0,
+  isPasswordError: false,
+  handleEmailChange: vi.fn(),
+  handlePasswordFocus: vi.fn(),
+  handlePasswordBlur: vi.fn(),
+  ...overrides,
 });
 
-vi.mock("@/hooks/use-server-action", () => ({
-  useServerAction: mockUseServerAction,
-}));
-
-vi.mock("@/features/auth/actions/login.action", () => ({
-  loginAction: mockLoginAction,
-}));
-// -----------------------------------------------------------------------------
-
 describe("LoginForm Component", () => {
-  beforeEach(() => {
-    // Reset the mock before each test to ensure isolation
-    mockUseServerAction.mockReturnValue([
-      { success: false }, // Default state
-      vi.fn(), // Mock dispatch
-      false, // isPending
-    ]);
-  });
-
   it("should render the form with correct accessible labels", () => {
-    render(<LoginForm />);
+    const props = createTestProps();
+    render(<LoginForm {...props} />);
+
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
   });
 
-  it("should toggle password visibility when the eye icon is clicked", () => {
-    render(<LoginForm />);
-    const passwordInput = screen.getByLabelText("Password", { selector: "input" });
-    const toggleButton = screen.getByRole("button", { name: /show password/i });
+  it("should call the correct handlers on user interaction", () => {
+    const props = createTestProps();
+    render(<LoginForm {...props} />);
 
-    expect(passwordInput).toHaveAttribute("type", "password");
-    fireEvent.click(toggleButton);
-    expect(passwordInput).toHaveAttribute("type", "text");
-    expect(screen.getByRole("button", { name: /hide password/i })).toBeInTheDocument();
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Password", { selector: "input" });
+
+    // Simulate typing in the email field
+    fireEvent.change(emailInput, { target: { value: "test" } });
+    expect(props.handleEmailChange).toHaveBeenCalled();
+
+    // Simulate focusing the password field
+    fireEvent.focus(passwordInput);
+    expect(props.handlePasswordFocus).toHaveBeenCalled();
+
+    // Simulate blurring the password field
+    fireEvent.blur(passwordInput);
+    expect(props.handlePasswordBlur).toHaveBeenCalled();
   });
 
-  it("should display field-specific validation errors from the server", () => {
-    mockUseServerAction.mockReturnValue([
-      {
+  it("should display field-specific validation errors when provided", () => {
+    const props = createTestProps({
+      state: {
         success: false,
         fieldErrors: { email: ["Invalid email address"] },
       },
-      vi.fn(),
-      false,
-    ]);
+    });
 
-    render(<LoginForm />);
+    render(<LoginForm {...props} />);
     expect(screen.getByText("Invalid email address")).toBeInTheDocument();
   });
 
-  it("should display a global error message from the server", () => {
-    mockUseServerAction.mockReturnValue([
-      {
+  it("should display a global error message when provided", () => {
+    const props = createTestProps({
+      state: {
         success: false,
         message: "Invalid credentials. Please try again.",
       },
-      vi.fn(),
-      false,
-    ]);
+    });
 
-    render(<LoginForm />);
+    render(<LoginForm {...props} />);
     expect(screen.getByText("Invalid credentials. Please try again.")).toBeInTheDocument();
   });
 
-  it("should disable inputs while submitting", () => {
-    // Arrange: Simulate the hook returning `isPending: true`.
-    mockUseServerAction.mockReturnValue([
-      { success: false },
-      vi.fn(),
-      true, // The action is in progress
-    ]);
+  it("should disable inputs when `isPending` is true", () => {
+    const props = createTestProps({
+      isPending: true,
+    });
 
-    render(<LoginForm />);
+    render(<LoginForm {...props} />);
 
-    // Assert: The inputs controlled by this component should be disabled.
     expect(screen.getByLabelText("Email")).toBeDisabled();
     expect(screen.getByLabelText("Password", { selector: "input" })).toBeDisabled();
   });

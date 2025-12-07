@@ -1,12 +1,17 @@
+/**
+ * @file The main server-rendered page for the Login route.
+ *
+ * @architecture
+ * This is a Server Component. It handles metadata and the responsive layout (Mobile vs. Desktop).
+ * It renders the interactive login form as a "Client Island" within each layout variant.
+ */
 import { Metadata } from "next";
 
-import { LoginForm } from "@/features/auth/components/login-form";
+import { LoginFeature } from "@/features/auth/components/login-feature";
 
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { VisuallyHidden } from "@/components/shared/visually-hidden";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-
-// ✅ Import the new utility
 
 export const metadata: Metadata = {
   title: "Login",
@@ -20,34 +25,27 @@ export default function LoginPage() {
         <ThemeToggle />
       </div>
 
-      <div className="w-full max-w-sm">
-        {/* ✅ ACCESSIBILITY FIX: The single, invisible H1 for screen readers */}
-        <VisuallyHidden>
-          <h1>Login to Super Admin</h1>
-        </VisuallyHidden>
+      <VisuallyHidden>
+        <h1>Login to Super Admin</h1>
+      </VisuallyHidden>
 
-        {/* --- DESKTOP CARD --- */}
+      <div className="w-full max-w-sm">
         <Card className="border-border/50 bg-background/80 hidden overflow-visible rounded-2xl border shadow-2xl shadow-black/10 backdrop-blur-lg sm:block dark:bg-black dark:shadow-black/50">
           <CardHeader className="p-8 pb-4 text-center">
-            {/* ✅ FIX: Moved back inside the card, using an h2 */}
             <h2 className="text-primary text-3xl font-bold tracking-tighter">Welcome Back</h2>
             <CardDescription className="pt-1">Enter your credentials to continue</CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-0">
-            <LoginForm />
+            <LoginFeature />
           </CardContent>
         </Card>
 
-        {/* --- MOBILE VIEW --- */}
         <div className="block sm:hidden">
           <div className="mb-6 text-center">
-            {/* ✅ FIX: Using an h2 for the mobile title */}
-            <h2 className="text-primary mb-2 text-3xl font-bold tracking-tighter sm:text-4xl">
-              Welcome Back
-            </h2>
+            <h2 className="text-primary mb-2 text-3xl font-bold tracking-tighter">Welcome Back</h2>
             <p className="text-muted-foreground text-sm">Enter your credentials to continue</p>
           </div>
-          <LoginForm />
+          <LoginFeature />
         </div>
       </div>
 

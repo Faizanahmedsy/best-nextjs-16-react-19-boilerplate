@@ -6,6 +6,7 @@
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
 
     "react/function-component-definition": "off",
+    "react/destructuring-assignment": ["error", "always"],
 
     "no-restricted-syntax": [
       "warn",
@@ -14,6 +15,15 @@
         "message": "🛑 TEAM RULE: Don't use Arrow Functions for Components! Please rewrite this as 'function ComponentName() {}'."
       }
     ],
+    "react/jsx-key": [
+      "error",
+      {
+        "checkFragmentShorthand": true,
+        "checkKeyMustBeforeSpread": true,
+        "warnOnDuplicates": true
+      }
+    ],
+    "react/jsx-no-target-blank": "error",
 
     // Force Absolute Imports
     "no-restricted-imports": [
@@ -23,6 +33,13 @@
           {
             "group": ["../*", "./*"],
             "message": "🛑 TEAM RULE: Please use absolute imports (e.g. @/lib/utils) instead of relative imports."
+          }
+        ],
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["useMemo", "useCallback"],
+            "message": "⚠️ REACT COMPILER RULE: Do not use useMemo or useCallback. The React Compiler handles memoization automatically. Only use these as an explicit escape hatch for advanced/legacy cases."
           }
         ]
       }

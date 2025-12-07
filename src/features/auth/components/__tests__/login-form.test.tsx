@@ -22,6 +22,7 @@ const createTestProps = (overrides: Partial<UseLoginFormReturn> = {}): UseLoginF
   isPending: false,
   isPasswordFocused: false,
   emailLength: 0,
+  isPasswordError: false,
   handleEmailChange: vi.fn(),
   handlePasswordFocus: vi.fn(),
   handlePasswordBlur: vi.fn(),

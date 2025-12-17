@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   },
   USERS: {
     LIST: "/users",
+    CREATE: "/users",
     DETAIL: (id: string) => `/users/${id}`,
   },
 } as const;
